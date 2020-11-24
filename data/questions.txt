@@ -1,13 +1,13 @@
 number ~ Your age: ~
 choice ~ Your sex: ~ Male, Female
-text ~ Your rank: ~
+text ~ Your rank (Enter 3 character abbreviation or N/A): ~
 text ~ Your grade: ~
 text ~ Your MOS: ~
 number ~ Years of Development Experience: ~
-choice ~ Education Level: ~ Undergraduate, Masters, PhD
+choice ~ Education Level: ~ Highschool, Undergraduate, Masters, PhD
 text ~ What is your work role: ~
 list ~ In your work role, what level of certifications have you achieved: ~
-list ~ Were you able to receive any additional training outside of your work role certification? ~
+list ~ List any additional training outside of your work role certification? ~
 choice ~ Do you think that 17D cyber developers have reached a certain level of progress within their JQR qualification should be recognized with a badge or other accoutrement on their uniform? ~ YES, NO, INDIFFERENT
 choice ~ If yes, should this be a tab worn over the unit patch (like the Ranger Tab) or a badge worn on the front of the uniform above the name tape (like airborne wings)? ~ Tab (like Ranger Tab), Badge (like airborne wings), Indifferent
 choice ~ If yes, should the badge also indicate the developer level of proficiency (basic, senior, master)? ~ YES, NO, INDIFFERENT
