@@ -2,11 +2,24 @@
 
 ############################################################################################
 #
-# Title: Developer Survey
+# Title: Survey Template
 # Date: 23 November 2020
-# Description: 
-# Usage: 
-# Instructions: 
+# Description: Python3 command line interface program to give users an interactive survey
+#               experience and allow them to create json objects after completion.
+# Usage: python3 survey.py
+# Current Dependencies: termcolor - pip3 install termcolor
+#                       progress.bar - pip3 install progress
+# Instructions: To create a survey first provide a questions text file with a list of 
+#               questions where each question has the following format:
+#                   <question-type> ~ <question-prompt> ~ <question-choices>
+#               There are four types of questions:
+#                   1. text i.e. "text ~ What is your favorite color? ~ "
+#                   2. number i.e. "number ~ How old are you? ~ "
+#                   3. choice i.e. "choice ~ Which comic universe? ~ DC, Marvel"
+#                   4. list i.e. "list ~ List your favorite foods: ~ "
+#               Only choice requires the third argument, others still require the '~' but 
+#               no argument to follow it. After creating a text file, edit the two variables
+#               at the top of the program called 'survey_source' and 'survey_description'.
 #
 ############################################################################################
 
@@ -23,17 +36,20 @@ from datetime import datetime
 # Program Functions
 ############################################################################################
 
-survey_questions = []
-
+### CHANGE THIS ###
+survey_source = 'data/questions.txt'
 survey_description = '''
 Welcome to the developer incentive and job satisfaction survey! This survey will help senior leaders increase
 the visibility and job satisfaction of our developer community. It is our goal to recruit, cultivate, and retain a
 highly qualified developer community that collaboratively and creatively overcomes some of our most difficult
-technical problems. This survey will help us determine how we should recognize and reward these developers.\n
-Do not discuss sensitive operational information, or information injurious to the Army or any individuals, or
-subjects mentioned in AR 360-1, paragraphs 5-3a(1) through 5-3a(20).\n
-'''
+technical problems. This survey will help us determine how we should recognize and reward these developers.
 
+Do not discuss sensitive operational information, or information injurious to the Army or any individuals, or
+subjects mentioned in AR 360-1, paragraphs 5-3a(1) through 5-3a(20).
+'''
+###################
+
+survey_questions = []
 timestamp = None
 
 # Question Class
@@ -47,7 +63,8 @@ class Question:
 
 # Print Functions
 
-def printd(s, c='blue'):
+# May need to choose a different color than white if terminal is white
+def printd(s, c='white'):
     cprint(s, c, attrs=['bold'])
 
 def printc(s):
@@ -178,8 +195,7 @@ actions = {
 # Survey Functions
 
 def get_questions():
-    read_file = 'data/questions.txt'
-    with open(read_file, 'r') as f:
+    with open(survey_source, 'r') as f:
         for line in f.readlines():
             c, q, a = map(str.strip, line.split('~'))
             a = a.split(',')
@@ -191,7 +207,7 @@ def get_questions():
             if c: survey_questions.append(Question(c, q, a))
 
 def give_answer(i,q):
-    os.system('clear')
+    clear()
     printd('Question ' + str(i+1) + ' of ' + str(len(survey_questions)) + '\n')
     printd(str(i+1) + '. ' + q.prompt)
     c = None
@@ -205,7 +221,11 @@ def give_answer(i,q):
             except ValueError:
                 printe('\nInvalid input! Please try again.')
     elif q.category == 'text':
-        c = input('\n >> ')
+        while True:
+            c = input('\n >> ')
+            if c == '':
+                printe('\nInvalid answer! Please try again.')
+            else: break
     elif q.category == 'choice':
         printd('(Choose one of the following by entering the corresponding number)\n', 'cyan')
         for choice in q.choices:
@@ -237,7 +257,6 @@ def give_answer(i,q):
             printc('\"' + c + '\" was added to the current list.')
     q.answer = c
 
-
 def write_json():
     outfile = 'responses/entry-' + timestamp + '.txt'
     data = []
@@ -268,9 +287,6 @@ if __name__ == "__main__":
 ############################################################################################
 
 # Termcolor: https://pypi.org/project/termcolor/
+# Progress Bar: https://pypi.org/project/progress/
 # JSON: https://stackabuse.com/reading-and-writing-json-to-a-file-in-python/
 # Interactive Menu: https://www.bggofurther.com/2015/01/create-an-interactive-command-line-menu-using-python/
-
-############################################################################################
-# Example
-############################################################################################
