@@ -63,7 +63,7 @@ def printr(s):
 # Menu Functions
 
 def main_menu():
-    os.system('clear')
+    clear()
     printd(survey_description)
     printc('[1] Take Survey')
     printc('[2] View Answers')
@@ -73,8 +73,12 @@ def main_menu():
     c = input('\n >> ')
     exec_menu(c)
 
-def exec_menu(s):
+def clear():
     os.system('clear')
+    print()
+
+def exec_menu(s):
+    clear()
     print()
     try: 
         actions[s]()
@@ -87,52 +91,8 @@ def take_survey():
     printd('There are '+str(len(survey_questions))+' questions in this survey. Press [Enter] to begin...\n', 'cyan')
     input()
     for i,q in enumerate(survey_questions):
-        os.system('clear')
-        printd('Question ' + str(i+1) + ' of ' + str(len(survey_questions)) + '\n')
-        printd(str(i+1) + '. ' + q.prompt)
-        c = None
-        if q.category == 'number':
-            while True:
-                printd('(Please enter a valid number)', 'cyan')
-                try:
-                    c = int(input('\n >> '))
-                    if c < 0: raise ValueError
-                    break
-                except ValueError:
-                    printe('\nInvalid input! Please try again.')
-        elif q.category == 'text':
-            c = input('\n >> ')
-        elif q.category == 'choice':
-            printd('(Choose one of the following by entering the corresponding number)\n', 'cyan')
-            for choice in q.choices:
-                printc('\t'+choice)
-            while True:
-                try:
-                    c = int(input('\n >> '))
-                    if c < 1 or c > len(q.choices): raise ValueError
-                    break
-                except ValueError:
-                    printe('\nInvalid choice! Please try again.')
-        elif q.category == 'list':
-            printd('(This is a list question, press [Enter] to add an entry or to end the list)', 'cyan')
-            l = []
-            while True:
-                c = input('\n >> ')
-                if not c: 
-                    printd('\nDo you want to end the list?\n')
-                    printc('[1] Yes')
-                    printc('[2] No')
-                    choice = input('\n >> ')
-                    if choice == '1':
-                        c = l
-                        break
-                    else:
-                        printd('(Continuing to add to list)', 'cyan')
-                        continue
-                l.append(c)
-                printc('\"' + c + '\" was added to the current list.')
-        q.answer = c
-    os.system('clear')
+        give_answer(i,q)
+    clear()
     printr('You have completed the survey! Press [Enter] to return to the Main Menu...\n')
     input()
     actions['main_menu']()
@@ -144,8 +104,9 @@ def view_answers():
     for i,q in enumerate(survey_questions):
         printd('—'*50, 'white')
         printd('Question ' + str(i+1) + ' of ' + str(len(survey_questions)) + '\n')
-        printd(str(i+1) + '. ' + q.prompt + '\n')
+        printd(str(i+1) + '. ' + q.prompt)
         if q.category == 'choice':
+            print()
             for choice in q.choices:
                 printc('\t'+choice)
         printd('\nAnswer: ' + str(q.answer), 'white')
@@ -155,9 +116,28 @@ def view_answers():
     actions['main_menu']()
 
 def change_answers():
-    printd('Function in Progress!\n')
-    pass
-    printd('Press [Enter] to return to the Main Menu...\n', 'cyan')
+    c = None
+    while True:
+        clear()
+        printd('Change Menu!\n')
+        printd('Please enter the question number to edit a question:')
+        printd('(Please enter a valid number)', 'cyan')
+        try:
+            c = int(input('\n >> '))
+            if c < 1 or c > len(survey_questions): raise ValueError
+        except ValueError:
+            printe('\nInvalid input! Please try again.')
+            continue
+        clear()
+        printd('Is this the question you want to edit?\n')
+        printd('[' + survey_questions[c-1].prompt + ']\n', 'cyan')
+        printc('[1] Yes')
+        printc('[2] No')
+        choice = input('\n >> ')
+        if choice == '1': break
+    give_answer(c-1, survey_questions[c-1])
+    clear()
+    printr('You have changed your answer! Press [Enter] to return to the Main Menu...\n')
     input()
     actions['main_menu']()
 
@@ -209,6 +189,54 @@ def get_questions():
             else:
                 a = None
             if c: survey_questions.append(Question(c, q, a))
+
+def give_answer(i,q):
+    os.system('clear')
+    printd('Question ' + str(i+1) + ' of ' + str(len(survey_questions)) + '\n')
+    printd(str(i+1) + '. ' + q.prompt)
+    c = None
+    if q.category == 'number':
+        while True:
+            printd('(Please enter a valid number)', 'cyan')
+            try:
+                c = int(input('\n >> '))
+                if c < 0: raise ValueError
+                break
+            except ValueError:
+                printe('\nInvalid input! Please try again.')
+    elif q.category == 'text':
+        c = input('\n >> ')
+    elif q.category == 'choice':
+        printd('(Choose one of the following by entering the corresponding number)\n', 'cyan')
+        for choice in q.choices:
+            printc('\t'+choice)
+        while True:
+            try:
+                c = int(input('\n >> '))
+                if c < 1 or c > len(q.choices): raise ValueError
+                break
+            except ValueError:
+                printe('\nInvalid choice! Please try again.')
+    elif q.category == 'list':
+        printd('(This is a list question, press [Enter] to add an entry or to end the list)', 'cyan')
+        l = []
+        while True:
+            c = input('\n >> ')
+            if not c: 
+                printd('\nDo you want to end the list?\n')
+                printc('[1] Yes')
+                printc('[2] No')
+                choice = input('\n >> ')
+                if choice == '1':
+                    c = l
+                    break
+                else:
+                    printd('(Continuing to add to list)', 'cyan')
+                    continue
+            l.append(c)
+            printc('\"' + c + '\" was added to the current list.')
+    q.answer = c
+
 
 def write_json():
     outfile = 'responses/entry-' + timestamp + '.txt'
