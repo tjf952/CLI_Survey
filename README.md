@@ -1,15 +1,15 @@
-# Title: Survey Template
-### Date: 23 November 2020
-### Description: 
+## Survey Template
+#### November 2020
+#### Description: 
 Python3 command line interface program to give users an interactive survey experience and allow them to create json objects after completion.
-### Usage: 
+#### Usage: 
 ```python
-	python3 survey.py
+python3 survey.py
 ```
-### Current Dependencies: 
+#### Current Dependencies: 
 	termcolor - pip3 install termcolor
 	progress.bar - pip3 install progress
-### Instructions: 
+#### Instructions: 
 > To create a survey first provide a questions text file with a list of questions where each question has the following format:
 > 
 > ***question-type*** ~ ***question-prompt*** ~ ***question-choices***
