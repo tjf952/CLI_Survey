@@ -1,0 +1,20 @@
+number ~ Your age: ~
+choice ~ Your sex: ~ Male, Female
+text ~ Your rank: ~
+text ~ Your grade: ~
+text ~ Your MOS: ~
+number ~ Years of Development Experience: ~
+choice ~ Education Level: ~ Undergraduate, Masters, PhD
+text ~ What is your work role: ~
+list ~ In your work role, what level of certifications have you achieved: ~
+list ~ Were you able to receive any additional training outside of your work role certification? ~
+choice ~ Do you think that 17D cyber developers have reached a certain level of progress within their JQR qualification should be recognized with a badge or other accoutrement on their uniform? ~ YES, NO, INDIFFERENT
+choice ~ If yes, should this be a tab worn over the unit patch (like the Ranger Tab) or a badge worn on the front of the uniform above the name tape (like airborne wings)? ~ Tab (like Ranger Tab), Badge (like airborne wings), Indifferent
+choice ~ If yes, should the badge also indicate the developer level of proficiency (basic, senior, master)? ~ YES, NO, INDIFFERENT
+choice ~ Regardless of your response on previous questions, rank order the following when you consider job satisfaction: Relevant operational missions ~ Not Important, Slightly Important, Moderately Important, Important, Very Important, No Opinion
+choice ~ Regardless of your response on previous questions, rank order the following when you consider job satisfaction: Motivational leadership ~ Not Important, Slightly Important, Moderately Important, Important, Very Important, No Opinion
+choice ~ Regardless of your response on previous questions, rank order the following when you consider job satisfaction: Encouraging and collaborative developer community ~ Not Important, Slightly Important, Moderately Important, Important, Very Important, No Opinion
+choice ~ Regardless of your response on previous questions, rank order the following when you consider job satisfaction: Incentive Pay ~ Not Important, Slightly Important, Moderately Important, Important, Very Important, No Opinion
+choice ~ Regardless of your response on previous questions, rank order the following when you consider job satisfaction: Developer badges or other accoutrement that visually recognizes your developer expertise ~ Not Important, Slightly Important, Moderately Important, Important, Very Important, No Opinion
+choice ~ Regardless of your response on previous questions, rank order the following when you consider job satisfaction: An operational development environment that makes it easy for you to showcase your skills ~ Not Important, Slightly Important, Moderately Important, Important, Very Important, No Opinion
+choice ~ Regardless of your response on previous questions, rank order the following when you consider job satisfaction: Currently the 17D developer program provides a tiered incentive pay from $1000 to $1500 per month. Would this pay affect your decision to stay in the Army or seek outside employment? ~ Not at All, Very Little, Somewhat, To a Great Extent, No Opinion
