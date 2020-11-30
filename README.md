@@ -9,6 +9,7 @@ python3 survey.py
 #### Current Dependencies: 
 	termcolor - pip3 install termcolor
 	progress.bar - pip3 install progress
+	crypto - pip3 install pycryptodome
 #### Instructions: 
 > To create a survey first provide a questions text file with a list of questions where each question has the following format:
 > 

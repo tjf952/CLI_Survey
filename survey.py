@@ -9,6 +9,7 @@
 # Usage: python3 survey.py
 # Current Dependencies: termcolor - pip3 install termcolor
 #                       progress.bar - pip3 install progress
+#                       crypto - pip3 install pycryptodome
 # Instructions: To create a survey first provide a questions text file with a list of 
 #               questions where each question has the following format:
 #                   <question-type> ~ <question-prompt> ~ <question-choices>
@@ -27,9 +28,12 @@
 # Imports
 ############################################################################################
 
-import sys, os, time, json
+import sys, os, time, json, b64
 from termcolor import colored, cprint
 from progress.bar import FillingCirclesBar
+from Crypto.Cipher import PKCS1_OAEP, AES
+from Crypto.PublicKey import RSA
+from Crypto.Random import get_random_bytes
 from datetime import datetime
 
 ############################################################################################
@@ -160,7 +164,8 @@ def change_answers():
 
 def submit():
     printr('Turning file into json format!\n')
-    write_json()
+    data = write_json()
+    encrypt_message_and_send(data)
     loading_bar()
     printd('Press [Enter] to return to the Main Menu...\n', 'cyan')
     input()
@@ -258,7 +263,6 @@ def give_answer(i,q):
     q.answer = c
 
 def write_json():
-    outfile = 'responses/entry-' + timestamp + '.txt'
     data = []
     for q in survey_questions:
         data.append({
@@ -267,8 +271,27 @@ def write_json():
             'choices': q.choices,
             'answer': q.answer
         })
-    with open(outfile, 'w') as f:
-        json.dump(data, f)
+    return data
+
+def encrypt_message_and_send(data):
+    outfile = 'responses/entry-' + timestamp + '.bin'
+    # Reads public key
+    key = RSA.importKey(open('rsa.pub').read())
+    cipher = PKCS1_OAEP.new(key)
+    # Creates random symmetric key
+    symkey = get_random_bytes(16)
+    symcipher = AES.new(symkey, AES.MODE_EAX)
+    # Encode data with symmetric key
+    message = json.dumps(data).encode()
+    ciphertext, tag = symcipher.encrypt_and_digest(message)
+    # Encrypts symmetric key
+    ekey = cipher.encrypt(symkey)
+    # Writes to file
+    with open(outfile, 'wb') as f: 
+        f.write(cipher.nonce)
+        f.write(tag)
+        f.write(ekey)
+        f.write(ciphertext)
 
 ############################################################################################
 # Main Function
@@ -290,3 +313,4 @@ if __name__ == "__main__":
 # Progress Bar: https://pypi.org/project/progress/
 # JSON: https://stackabuse.com/reading-and-writing-json-to-a-file-in-python/
 # Interactive Menu: https://www.bggofurther.com/2015/01/create-an-interactive-command-line-menu-using-python/
+# Encryption: https://www.sitepoint.com/encrypt-large-messages-asymmetric-keys-phpseclib/
