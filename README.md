@@ -29,4 +29,5 @@ python3 survey.py
 > 3. choice i.e. "choice ~ Which comic universe? ~ DC, Marvel"
 > 4. list i.e. "list ~ List your favorite foods: ~ "
 > Only choice requires the third argument, others still require the '~' but no argument to follow it. After creating a text file, edit the two variables at the top of the program called 'survey_source' and 'survey_description'.
+
 After make sure to generate your own RSA key pair, keep the private key (rsa) safe and sound, give the public key (rsa.pub) to the participants of the survey. After receiving the data back, you can read the file by running the read_data.py script.
