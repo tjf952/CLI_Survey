@@ -287,7 +287,7 @@ def give_answer(i,q):
             printc('\"' + c + '\" was added to the current list.')
     q.answer = c
 
-def write_json():
+def write_json_full():
     data = []
     for q in survey_questions:
         data.append({
@@ -296,6 +296,12 @@ def write_json():
             'choices': q.choices,
             'answer': q.answer
         })
+    return data
+
+def write_json():
+    data = {}
+    for i,q in enumerate(survey_questions):
+        data[i+1] = q.answer
     return data
 
 def encrypt_message_and_send(data, outfile):

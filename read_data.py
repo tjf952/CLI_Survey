@@ -26,5 +26,5 @@ def decrypt_file(filename):
 	data = aes_cipher.decrypt_and_verify(ciphertext, tag)
 	return data
 
-data = decrypt_file(filename)
+data = decrypt_file(filename).decode()
 print(data)
