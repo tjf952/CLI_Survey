@@ -28,7 +28,7 @@
 # Imports
 ############################################################################################
 
-import sys, os, time, json, b64
+import sys, os, time, json
 from termcolor import colored, cprint
 from progress.bar import FillingCirclesBar
 from Crypto.Cipher import PKCS1_OAEP, AES
@@ -42,6 +42,8 @@ from datetime import datetime
 
 ### CHANGE THIS ###
 survey_source = 'data/questions.txt'
+survey_title = 'Developer Survey v1.03'
+survey_author = 'V3JpdHRlbiBieSAyTFQgVGhvbWFzIEZpbm4='
 survey_description = '''
 Welcome to the developer incentive and job satisfaction survey! This survey will help senior leaders increase
 the visibility and job satisfaction of our developer community. It is our goal to recruit, cultivate, and retain a
@@ -52,9 +54,6 @@ Do not discuss sensitive operational information, or information injurious to th
 subjects mentioned in AR 360-1, paragraphs 5-3a(1) through 5-3a(20).
 '''
 ###################
-
-survey_questions = []
-timestamp = None
 
 # Question Class
 
@@ -85,40 +84,58 @@ def printr(s):
 
 def main_menu():
     clear()
+    printd(survey_title, 'cyan')
+    print()
+    printr(survey_author)
+    print()
     printd(survey_description)
-    printc('[1] Take Survey')
+    if bookmark == 0:
+        printc('[1] Take Survey')
+    else:
+        printc('[1] Continue Survey')
     printc('[2] View Answers')
     printc('[3] Change Answers')
     printc('[4] Submit')
     printc('[0] Exit')
     c = input('\n >> ')
-    exec_menu(c)
+    print()
+    try: 
+        actions[c]()
+    except KeyError:
+        printe('Invalid selection, try again.')
+        time.sleep(1.5)
+        main_menu()
 
 def clear():
     os.system('clear')
     print()
 
-def exec_menu(s):
-    clear()
-    print()
-    try: 
-        actions[s]()
-    except KeyError:
-        printe('Invalid selection, try again.')
-        actions['main_menu']()
-
 def take_survey():
-    printd('Welcome to the beginning of the survey. Please answer to the best of your ability!\n')
-    printd('There are '+str(len(survey_questions))+' questions in this survey. Press [Enter] to begin...\n', 'cyan')
-    input()
-    for i,q in enumerate(survey_questions):
-        give_answer(i,q)
+    clear()
+    global bookmark
+    if bookmark == 0:
+        printd('Welcome to the beginning of the survey. Please answer to the best of your ability!\n')
+        printd('There are '+str(len(survey_questions))+' questions in this survey.', 'cyan')
+    else:
+        printd('Resuming survey at question '+str(bookmark+1)+'.\n')
+        printd('There are '+str(len(survey_questions)-bookmark)+' questions remaining.', 'cyan')
+    for i,q in enumerate(survey_questions[bookmark:]):
+        printd('\nEnter [b] to bookmark survey starting at next question or press [Enter] to continue...', 'cyan')
+        c = input('\n >> ')
+        if c == 'b':
+            printd('\nBookmark being placed at question '+str(bookmark+i+1)+'!')
+            time.sleep(1.5)
+            bookmark = bookmark+i
+            actions['main_menu']()
+        give_answer(bookmark+i,q)
     clear()
     printr('You have completed the survey! Press [Enter] to return to the Main Menu...\n')
+    bookmark = 0
     input()
     actions['main_menu']()
 
 def view_answers():
+    clear()
     printd('View Survey!\n')
     printd('Press [Enter] to return to the Main Menu...\n', 'cyan')
     printd('\nSurvey Questions\n')
@@ -141,13 +158,15 @@ def change_answers():
     while True:
         clear()
         printd('Change Menu!\n')
-        printd('Please enter the question number to edit a question:')
+        printd('Please enter the question number to edit a question or enter [0] to exit:')
         printd('(Please enter a valid number)', 'cyan')
         try:
             c = int(input('\n >> '))
-            if c < 1 or c > len(survey_questions): raise ValueError
+            if c == 0: break
+            if c < 0 or c > len(survey_questions): raise ValueError
         except ValueError:
             printe('\nInvalid input! Please try again.')
+            time.sleep(1)
             continue
         clear()
         printd('Is this the question you want to edit?\n')
@@ -156,23 +175,29 @@ def change_answers():
         printc('[2] No')
         choice = input('\n >> ')
         if choice == '1': break
-    give_answer(c-1, survey_questions[c-1])
-    clear()
-    printr('You have changed your answer! Press [Enter] to return to the Main Menu...\n')
-    input()
+    if c != 0:
+        give_answer(c-1, survey_questions[c-1])
+        clear()
+        printr('You have changed your answer! Press [Enter] to return to the Main Menu...\n')
+        input()
     actions['main_menu']()
 
 def submit():
-    printr('Turning file into json format!\n')
+    clear()
+    outfile = 'responses/entry-' + timestamp + '.bin'
+    printr('Turning your answers into a super secret message!\n')
     data = write_json()
-    encrypt_message_and_send(data)
+    encrypt_message_and_send(data, outfile)
     loading_bar()
+    printd('You can find your file at \"'+outfile+'\".', 'cyan')
     printd('Press [Enter] to return to the Main Menu...\n', 'cyan')
     input()
     actions['main_menu']()
 
 def exit():
+    clear()
     printe('Are you sure you want to exit?\n')
+    printd('(You will lose all your data if you continue)\n')
     printc('[1] Yes')
     printc('[2] No')
     choice = input('\n >> ')
@@ -243,7 +268,7 @@ def give_answer(i,q):
             except ValueError:
                 printe('\nInvalid choice! Please try again.')
     elif q.category == 'list':
-        printd('(This is a list question, press [Enter] to add an entry or to end the list)', 'cyan')
+        printd('(This is a list question, press [Enter] with an entry to add it or press [Enter] without an entry to end the list)', 'cyan')
         l = []
         while True:
             c = input('\n >> ')
@@ -273,8 +298,7 @@ def write_json():
         })
     return data
 
-def encrypt_message_and_send(data):
-    outfile = 'responses/entry-' + timestamp + '.bin'
+def encrypt_message_and_send(data, outfile):
     # Reads public key
     key = RSA.importKey(open('rsa.pub').read())
     cipher = PKCS1_OAEP.new(key)
@@ -288,7 +312,7 @@ def encrypt_message_and_send(data):
     ekey = cipher.encrypt(symkey)
     # Writes to file
     with open(outfile, 'wb') as f: 
-        f.write(cipher.nonce)
+        f.write(symcipher.nonce)
         f.write(tag)
         f.write(ekey)
         f.write(ciphertext)
@@ -298,7 +322,9 @@ def encrypt_message_and_send(data):
 ############################################################################################
 
 if __name__ == "__main__":
-    # Set timestamp
+    survey_questions = []
+    outfile = ''
+    bookmark = 0
     timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
     # Setup survey
     get_questions()
