@@ -1,28 +1,10 @@
+text ~ What is your Superhero name? ~
 number ~ Your age: ~
-choice ~ Your sex: ~ Male, Female
-text ~ Your rank (Enter 3 character abbreviation or N/A): ~
-text ~ Your grade: ~
-text ~ Your MOS: ~
-number ~ Years of Development Experience: ~
-choice ~ Education Level: ~ Highschool, Undergraduate, Masters, PhD
-text ~ What is your work role: ~
-list ~ In your work role, what level of certifications have you achieved: ~
-list ~ List any additional training outside of your work role certification? ~
-choice ~ Do you think that 17D cyber developers have reached a certain level of progress within their JQR qualification should be recognized with a badge or other accoutrement on their uniform? ~ YES, NO, INDIFFERENT
-choice ~ If yes, should this be a tab worn over the unit patch (like the Ranger Tab) or a badge worn on the front of the uniform above the name tape (like airborne wings)? ~ Tab (like Ranger Tab), Badge (like airborne wings), Indifferent
-choice ~ If yes, should the badge also indicate the developer level of proficiency (basic, senior, master)? ~ YES, NO, INDIFFERENT
-choice ~ Regardless of your response on previous questions, answer the following when you consider job satisfaction: Relevant operational missions ~ Not Important, Slightly Important, Moderately Important, Important, Very Important, No Opinion
-choice ~ Regardless of your response on previous questions, answer the following when you consider job satisfaction: Motivational leadership ~ Not Important, Slightly Important, Moderately Important, Important, Very Important, No Opinion
-choice ~ Regardless of your response on previous questions, answer the following when you consider job satisfaction: Encouraging and collaborative developer community ~ Not Important, Slightly Important, Moderately Important, Important, Very Important, No Opinion
-choice ~ Regardless of your response on previous questions, answer the following when you consider job satisfaction: Incentive Pay ~ Not Important, Slightly Important, Moderately Important, Important, Very Important, No Opinion
-choice ~ Regardless of your response on previous questions, answer the following when you consider job satisfaction: Developer badges or other accoutrement that visually recognizes your developer expertise ~ Not Important, Slightly Important, Moderately Important, Important, Very Important, No Opinion
-choice ~ Regardless of your response on previous questions, answer the following when you consider job satisfaction: An operational development environment that makes it easy for you to showcase your skills ~ Not Important, Slightly Important, Moderately Important, Important, Very Important, No Opinion
-choice ~ Regardless of your response on previous questions, answer the following when you consider job satisfaction: Currently the 17D developer program provides a tiered incentive pay from $1000 to $1500 per month. Would this pay affect your decision to stay in the Army or seek outside employment? ~ Not at All, Very Little, Somewhat, To a Great Extent, No Opinion
-text ~ What do you enjoy about your job? ~ 
-text ~ What frustrates you about your job? ~ 
-text ~ Do you feel your skills are being used to the greatest effect in support of your mission? ~ 
-text ~ What can we do to make your job better? ~ 
-text ~ If you could change how we train and retain the personnel in your work role, what would you suggest? ~ 
-text ~ What are the most important factors in determining whether you remain in the Army? ~ 
-text ~ What is your "can't turn down criteria" - What is the "deal breaker" that if not addressed will cause you to leave the Army i.e. what offer can we make that would incentivize you above all other opportunities to remain a soldier? ~ 
-text ~ This is an anonymous survey that will be read by ARCYBER senior leaders. Is there anything you would like to add that will assist the command in retaining personnel with mission critical, low-density skills? ~ 
+choice ~ Your sex: ~ Male * Female
+list ~ List your favorite Superheroes! ~
+choice ~ Do you read Superhero comic books or graphic novels? ~ Often * Always * Sometimes * Rarely * Never
+choice ~ DC or Marvel? ~ DC! * Marvel! * Both! * Neither...
+choice ~ What is the best super power? ~ Flight * Super Strength * Super Speed * Invulnerability * Weather Control * Time Control * Invisibility * Telepathy * Telekinesis * Teleportation * Shape-shifting * Ability to Match Socks
+text ~ Where do you want to live and conduct your crime-fighting? ~
+text ~ Who should be your ultimate nemesis? ~
+choice ~ You have to save your love interest or the distraught civilians, what do you do?! ~ The right thing to do is to put the people of the city first. * I'll be right there my love! * Lol - I'm gonna go take a nap...

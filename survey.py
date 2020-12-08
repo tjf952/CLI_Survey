@@ -42,16 +42,15 @@ from datetime import datetime
 
 ### CHANGE THIS ###
 survey_source = 'data/questions.txt'
-survey_title = 'Developer Survey v1.03'
-survey_author = 'V3JpdHRlbiBieSAyTFQgVGhvbWFzIEZpbm4='
+survey_title = 'Simple Superhero Survey'
+survey_author = 'V3JpdHRlbiBieSBUaG9tYXMgRmlubg=='
 survey_description = '''
-Welcome to the developer incentive and job satisfaction survey! This survey will help senior leaders increase
-the visibility and job satisfaction of our developer community. It is our goal to recruit, cultivate, and retain a
-highly qualified developer community that collaboratively and creatively overcomes some of our most difficult
-technical problems. This survey will help us determine how we should recognize and reward these developers.
+Welcome to the Superhero survey! This survey is solely to be a placeholder until cooler and more
+surveys come to be. But I hope you enjoy it regardless. Try it out and see if you can go through
+the work process of encrypting responses and then reading the encrypted text using the read_data
+python script.
 
-Do not discuss sensitive operational information, or information injurious to the Army or any individuals, or
-subjects mentioned in AR 360-1, paragraphs 5-3a(1) through 5-3a(20).
+And remember: Let's all have fun and play together!
 '''
 ###################
 
@@ -228,7 +227,7 @@ def get_questions():
     with open(survey_source, 'r') as f:
         for line in f.readlines():
             c, q, a = map(str.strip, line.split('~'))
-            a = a.split(',')
+            a = a.split('*')
             if c == 'choice':
                 for i, choice in enumerate(a):
                     a[i] = '('+str(i+1)+') '+choice.strip()
